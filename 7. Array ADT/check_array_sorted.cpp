@@ -86,12 +86,12 @@ void InsertSort(struct Array *arr, int num)
     arr->length++;
 }
 
-// void Swap(int *a, int *b)
-// {
-//     int temp = *b;
-//     b = a;
-//     a = &temp;
-// }
+void Swap(int *a, int *b)
+{
+    int temp = *b;
+    b = a;
+    a = &temp;
+}
 
 void SortVE(struct Array *arr)
 {
