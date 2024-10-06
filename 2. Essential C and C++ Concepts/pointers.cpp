@@ -2,15 +2,18 @@
 using namespace std;
 int main()
 {
-    int a = 10;
-    int *b;
-    b = &a;
-    cout << a << endl;
-    cout << *b << endl;
-    cout << b << endl;
+    // Pointer Basics
+    // int a = 10;
+    // int *p;
+    // p = &a;
+    // printf("%d \n", a);
+    // printf("%d \n", p);
+    // printf("%d \n", *p);
 
+    // Allocating Heap Memory in C++
     int *p;
     p = new int[5];
-    cout << p << endl;
+    printf("%d \n", p);
+
     return 0;
 }

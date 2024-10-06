@@ -4,6 +4,7 @@ int main()
 {
     int a = 10;
     int &r = a;
-    cout << r << endl;
+
+    printf("%d \n", r);
     return 0;
 }
