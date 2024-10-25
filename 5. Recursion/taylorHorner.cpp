@@ -10,7 +10,7 @@ double taylorHorner(double x, double n)
     {
         return r;
     }
-    r = 1 + (x / n) * r;
+    r = 1 + ((x / n) * r);
     return taylorHorner(x, n - 1);
 }
 
