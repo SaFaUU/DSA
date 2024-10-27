@@ -3,7 +3,7 @@ using namespace std;
 
 int fact(int n)
 {
-    if (n <= 1)
+    if (n == 0)
         return 1;
     return n * fact(n - 1);
 }
@@ -11,10 +11,9 @@ int fact(int n)
 int c(int n, int r)
 {
     int nominator = fact(n);
-    int denominator = fact(r);
-    int denominator2 = fact(n - r);
+    int denominator = fact(r) * fact(n - r);
 
-    return nominator / (denominator * denominator2);
+    return nominator / denominator;
 }
 
 int pascalsTriangle(int n, int r)
