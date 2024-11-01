@@ -3,5 +3,10 @@
     "*.ejs": "html",
     "iostream": "cpp",
     "new": "cpp"
-  }
+  },
+  "codeium.enableConfig": {
+    "*": true
+  },
+  "color-highlight.languages": ["*"],
+  "color-manager.languages": []
 }
