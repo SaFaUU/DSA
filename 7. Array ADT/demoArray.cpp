@@ -25,12 +25,39 @@ void Append(struct Array *arr, int item)
 
 void Insert(struct Array *arr, int item, int index)
 {
-    for (int i = arr->length - 1; i >= index; i--)
+    for (int i = arr->length; i >= index; i--)
     {
-        arr->A[i + 1] = arr->A[i];
+        arr->A[i] = arr->A[i - 1];
     }
     arr->A[index] = item;
     arr->length += 1;
+}
+
+void Delete(struct Array *arr, int index)
+{
+    if (index > arr->length)
+    {
+        return;
+    }
+
+    for (int i = index; i < arr->length; i++)
+    {
+        arr->A[i] = arr->A[i + 1];
+    }
+
+    arr->length--;
+}
+
+int LinearSearch(struct Array arr, int key)
+{
+    for (int i = 0; i < arr.length; i++)
+    {
+        if (arr.A[i] == key)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
 int main()
@@ -56,6 +83,14 @@ int main()
     cout << "Array Length: " << arr.length << endl;
 
     Display(arr);
+
+    // Deleting an Element
+    Delete(&arr, 5);
+    Display(arr);
+
+    // Linear Search
+    int index = LinearSearch(arr, 100);
+    cout << "Element Found at Index: " << index << endl;
 
     return 0;
 }
