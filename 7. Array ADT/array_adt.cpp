@@ -115,6 +115,83 @@ int BinarySearchRecursive(struct Array arr, int lowIndex, int highIndex, int key
   return -1;
 }
 
+int Get(struct Array arr, int index)
+{
+  if (index <= 0 || index >= arr.length)
+  {
+    return -1;
+  }
+  else
+  {
+    return arr.A[index];
+  }
+}
+int Set(struct Array *arr, int index, int value)
+{
+  if (index <= 0 || index >= arr->length)
+  {
+    return -1;
+  }
+  else
+  {
+    arr->A[index] = value;
+    return 0;
+  }
+}
+
+int Max(struct Array arr)
+{
+  int max = arr.A[0];
+  for (int i = 0; i < arr.length; i++)
+  {
+    if (arr.A[i] > max)
+    {
+      max = arr.A[i];
+    }
+  }
+  return max;
+}
+
+int Sum(struct Array arr)
+{
+  int total = 0;
+  for (int i = 0; i < arr.length; i++)
+  {
+    total += arr.A[i];
+  }
+  return total;
+}
+
+float Avg(struct Array arr)
+{
+  return float(Sum(arr)) / arr.length;
+}
+
+void ReverseArray(struct Array *arr)
+{
+  int SArray[arr->length];
+
+  for (int i = arr->length - 1, j = 0; i >= 0; i--, j++)
+  {
+    SArray[j] = arr->A[i];
+  }
+
+  for (int k = 0; k <= arr->length; k++)
+  {
+    arr->A[k] = SArray[k];
+  }
+}
+
+void ReverseArraySwap(struct Array *arr)
+{
+  for (int i = 0, j = arr->length - 1; i < j; i++, j--)
+  {
+    int temp = arr->A[i];
+    arr->A[i] = arr->A[j];
+    arr->A[j] = temp;
+  }
+}
+
 int main()
 {
   struct Array arr = {{2, 3, 4, 5, 6, 100}, 10, 6};
@@ -131,6 +208,36 @@ int main()
   // Binary Search
   index = BinarySearchRecursive(arr, 0, arr.length - 1, 100);
   cout << "Element Found using Binary Search Recursive at Index: " << index << endl;
+
+  // Getting an Element
+  Display(arr);
+  cout << "Element at Index 2: " << Get(arr, 2) << endl;
+
+  // Setting an Element
+  Set(&arr, 2, 99);
+  Display(arr);
+  cout << "Element at Index 2: " << Get(arr, 2) << endl;
+
+  // Max Element
+  cout << "Max Element: " << Max(arr) << endl;
+
+  // Sum of Elements
+  cout << "Sum of Elements: " << Sum(arr) << endl;
+
+  // Average of Elements
+  cout << "Average of Elements: " << Avg(arr) << endl;
+
+  // Reversing the Array
+  cout << "Reversing the Array" << endl;
+  Display(arr);
+  ReverseArray(&arr);
+  Display(arr);
+
+  // Reversing the Array with Swap
+  cout << "Reversing the Array with Swap" << endl;
+  Display(arr);
+  ReverseArraySwap(&arr);
+  Display(arr);
 
   return 0;
 }
