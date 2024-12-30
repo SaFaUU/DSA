@@ -3,58 +3,98 @@
 
 using namespace std;
 
-struct Array
+class Array
 {
-  int A[10];
+private:
+  int *A;
   int size;
   int length;
+  void Swap(int *a, int *b);
+
+public:
+  Array()
+  {
+    size = 10;
+    length = 0;
+    A = new int[size];
+  }
+  Array(int sz)
+  {
+    size = sz;
+    length = 0;
+    A = new int[size];
+  }
+  void Display();
+  void Append(int item);
+  void Insert(int item, int index);
+  void Delete(int index);
+  int LinearSearch(int key);
+  int BinarySearch(int key);
+  int BinarySearchRecursive(int lowIndex, int highIndex, int key);
+  int Get(int index);
+  int Set(int index, int value);
+  int Max();
+  int Sum();
+  float Avg();
+  void ReverseArray();
+  void ReverseArraySwap();
+  void leftRotate();
+  void rightRotate();
+  void leftShift();
+  void rightShift();
+
+  ~Array()
+  {
+    delete[] A;
+  }
 };
-void Display(struct Array arr)
+
+void Array::Display()
 {
   cout << "The Elements are: ";
-  for (int i = 0; i < arr.length; i++)
+  for (int i = 0; i < length; i++)
   {
-    cout << arr.A[i] << " ";
+    cout << A[i] << " ";
   }
   cout << endl;
 }
 
-void Append(struct Array *arr, int item)
+void Array::Append(int item)
 {
-  arr->A[arr->length] = item;
-  arr->length += 1;
+  A[length] = item;
+  length += 1;
 };
 
-void Insert(struct Array *arr, int item, int index)
+void Array::Insert(int item, int index)
 {
-  for (int i = arr->length; i >= index; i--)
+  for (int i = length; i >= index; i--)
   {
-    arr->A[i] = arr->A[i - 1];
+    A[i] = A[i - 1];
   }
-  arr->A[index] = item;
-  arr->length += 1;
+  A[index] = item;
+  length += 1;
 }
 
-void Delete(struct Array *arr, int index)
+void Array::Delete(int index)
 {
-  if (index > arr->length)
+  if (index > length)
   {
     return;
   }
 
-  for (int i = index; i < arr->length; i++)
+  for (int i = index; i < length; i++)
   {
-    arr->A[i] = arr->A[i + 1];
+    A[i] = A[i + 1];
   }
 
-  arr->length--;
+  length--;
 }
 
-int LinearSearch(struct Array arr, int key)
+int Array::LinearSearch(int key)
 {
-  for (int i = 0; i < arr.length; i++)
+  for (int i = 0; i < length; i++)
   {
-    if (arr.A[i] == key)
+    if (A[i] == key)
     {
       return i;
     }
@@ -62,26 +102,26 @@ int LinearSearch(struct Array arr, int key)
   return -1;
 }
 
-int BinarySearch(struct Array arr, int key)
+int Array::BinarySearch(int key)
 {
   int lowIndex = 0;
-  int highIndex = arr.length - 1;
+  int highIndex = length - 1;
 
   while (lowIndex <= highIndex)
   {
     int midIndex = floor((lowIndex + highIndex) / 2);
 
-    if (key == arr.A[midIndex])
+    if (key == A[midIndex])
     {
       return midIndex;
     }
 
-    if (key < arr.A[midIndex])
+    if (key < A[midIndex])
     {
       highIndex = midIndex - 1;
     }
 
-    if (key > arr.A[midIndex])
+    if (key > A[midIndex])
     {
       lowIndex = midIndex + 1;
     }
@@ -90,158 +130,158 @@ int BinarySearch(struct Array arr, int key)
   return -1;
 }
 
-int BinarySearchRecursive(struct Array arr, int lowIndex, int highIndex, int key)
+int Array::BinarySearchRecursive(int lowIndex, int highIndex, int key)
 {
   if (lowIndex <= highIndex)
   {
 
     int midIndex = floor((lowIndex + highIndex) / 2);
 
-    if (key == arr.A[midIndex])
+    if (key == A[midIndex])
     {
       return midIndex;
     }
 
-    if (key < arr.A[midIndex])
+    if (key < A[midIndex])
     {
-      return BinarySearchRecursive(arr, lowIndex, highIndex - 1, key);
+      return BinarySearchRecursive(lowIndex, highIndex - 1, key);
     }
 
-    if (key > arr.A[midIndex])
+    if (key > A[midIndex])
     {
-      return BinarySearchRecursive(arr, lowIndex + 1, highIndex, key);
+      return BinarySearchRecursive(lowIndex + 1, highIndex, key);
     }
   }
   return -1;
 }
 
-int Get(struct Array arr, int index)
+int Array::Get(int index)
 {
-  if (index <= 0 || index >= arr.length)
+  if (index <= 0 || index >= length)
   {
     return -1;
   }
   else
   {
-    return arr.A[index];
+    return A[index];
   }
 }
-int Set(struct Array *arr, int index, int value)
+int Array::Set(int index, int value)
 {
-  if (index <= 0 || index >= arr->length)
+  if (index <= 0 || index >= length)
   {
     return -1;
   }
   else
   {
-    arr->A[index] = value;
+    A[index] = value;
     return 0;
   }
 }
 
-int Max(struct Array arr)
+int Array::Max()
 {
-  int max = arr.A[0];
-  for (int i = 0; i < arr.length; i++)
+  int max = A[0];
+  for (int i = 0; i < length; i++)
   {
-    if (arr.A[i] > max)
+    if (A[i] > max)
     {
-      max = arr.A[i];
+      max = A[i];
     }
   }
   return max;
 }
 
-int Sum(struct Array arr)
+int Array::Sum()
 {
   int total = 0;
-  for (int i = 0; i < arr.length; i++)
+  for (int i = 0; i < length; i++)
   {
-    total += arr.A[i];
+    total += A[i];
   }
   return total;
 }
 
-float Avg(struct Array arr)
+float Array::Avg()
 {
-  return float(Sum(arr)) / arr.length;
+  return float(Sum()) / length;
 }
 
-void ReverseArray(struct Array *arr)
+void Array::ReverseArray()
 {
-  int SArray[arr->length];
+  int SArray[length];
 
-  for (int i = arr->length - 1, j = 0; i >= 0; i--, j++)
+  for (int i = length - 1, j = 0; i >= 0; i--, j++)
   {
-    SArray[j] = arr->A[i];
+    SArray[j] = A[i];
   }
 
-  for (int k = 0; k <= arr->length; k++)
+  for (int k = 0; k <= length; k++)
   {
-    arr->A[k] = SArray[k];
-  }
-}
-
-void ReverseArraySwap(struct Array *arr)
-{
-  for (int i = 0, j = arr->length - 1; i < j; i++, j--)
-  {
-    int temp = arr->A[i];
-    arr->A[i] = arr->A[j];
-    arr->A[j] = temp;
+    A[k] = SArray[k];
   }
 }
 
-void Swap(int *a, int *b)
+void Array::ReverseArraySwap()
+{
+  for (int i = 0, j = length - 1; i < j; i++, j--)
+  {
+    int temp = A[i];
+    A[i] = A[j];
+    A[j] = temp;
+  }
+}
+
+void Array::Swap(int *a, int *b)
 {
   int temp = *a;
   *a = *b;
   *b = temp;
 }
 
-void leftRotate(struct Array *arr)
+void Array::leftRotate()
 {
-  int firstElement = arr->A[0];
+  int firstElement = A[0];
 
-  for (int i = 0; i < arr->length - 1; i++)
+  for (int i = 0; i < length - 1; i++)
   {
-    arr->A[i] = arr->A[i + 1];
+    A[i] = A[i + 1];
   }
 
-  arr->A[arr->length - 1] = firstElement;
+  A[length - 1] = firstElement;
 }
 
-void rightRotate(struct Array *arr)
+void Array::rightRotate()
 {
-  int lastElement = arr->A[arr->length - 1];
+  int lastElement = A[length - 1];
 
-  for (int i = arr->length - 1; i > 0; i--)
+  for (int i = length - 1; i > 0; i--)
   {
-    arr->A[i] = arr->A[i - 1];
+    A[i] = A[i - 1];
   }
 
-  arr->A[0] = lastElement;
+  A[0] = lastElement;
 }
 
-void leftShift(struct Array *arr)
+void Array::leftShift()
 {
-  for (int i = 0; i < arr->length; i++)
+  for (int i = 0; i < length; i++)
   {
-    Swap(&arr->A[i], &arr->A[i + 1]);
+    Swap(&A[i], &A[i + 1]);
   }
-  arr->A[arr->length - 1] = 0;
+  A[length - 1] = 0;
 }
 
-void rightShift(struct Array *arr)
+void Array::rightShift()
 {
-  for (int i = arr->length - 1; i >= 0; i--)
+  for (int i = length - 1; i >= 0; i--)
   {
-    Swap(&arr->A[i], &arr->A[i - 1]);
+    Swap(&A[i], &A[i - 1]);
   }
-  arr->A[0] = 0;
+  A[0] = 0;
 }
 
-void InsertInSort(struct Array *arr, int x)
+void Array::InsertInSort(struct Array *arr, int x)
 {
   if (arr->length > arr->size)
   {
@@ -260,7 +300,7 @@ void InsertInSort(struct Array *arr, int x)
   arr->length++;
 }
 
-int IsSorted(struct Array arr)
+int Array::IsSorted(struct Array arr)
 {
   for (int i = 0; i < arr.length - 1; i++)
   {
@@ -272,7 +312,7 @@ int IsSorted(struct Array arr)
   return 1;
 }
 
-void ReArrange(struct Array *arr)
+void Array::ReArrange(struct Array *arr)
 {
   int i = 0, j = arr->length - 1;
   while (i < j)
@@ -294,7 +334,7 @@ void ReArrange(struct Array *arr)
   }
 }
 
-struct Array MergeSortedArray(struct Array arr1, struct Array arr2)
+struct Array Array::MergeSortedArray(struct Array arr1, struct Array arr2)
 {
 
   struct Array arr3;
@@ -335,7 +375,7 @@ struct Array MergeSortedArray(struct Array arr1, struct Array arr2)
   return arr3;
 }
 
-struct Array UnionArray(struct Array arr1, struct Array arr2)
+struct Array Array::UnionArray(struct Array arr1, struct Array arr2)
 {
   struct Array arr3;
 
@@ -368,7 +408,7 @@ struct Array UnionArray(struct Array arr1, struct Array arr2)
   return arr3;
 }
 
-struct Array IntersectionArray(struct Array arr1, struct Array arr2)
+struct Array Array::IntersectionArray(struct Array arr1, struct Array arr2)
 {
   struct Array arr3;
 
@@ -390,7 +430,7 @@ struct Array IntersectionArray(struct Array arr1, struct Array arr2)
   return arr3;
 }
 
-struct Array DifferenceArray(struct Array arr1, struct Array arr2)
+struct Array Array::DifferenceArray(struct Array arr1, struct Array arr2)
 {
   struct Array arr3;
 
