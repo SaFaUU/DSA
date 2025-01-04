@@ -42,11 +42,13 @@ public:
   void rightRotate();
   void leftShift();
   void rightShift();
-
-  ~Array()
-  {
-    delete[] A;
-  }
+  void InsertInSort(int x);
+  int IsSorted();
+  void ReArrange();
+  Array MergeSortedArray(const Array &arr1, struct Array &arr2);
+  Array UnionArray(const Array &arr1, struct Array &arr2);
+  Array IntersectionArray(const Array &arr1, struct Array &arr2);
+  Array DifferenceArray(const Array &arr1, struct Array &arr2);
 };
 
 void Array::Display()
@@ -132,6 +134,12 @@ int Array::BinarySearch(int key)
 
 int Array::BinarySearchRecursive(int lowIndex, int highIndex, int key)
 {
+
+  if (highIndex == -1)
+  {
+    highIndex = length - 1;
+  }
+
   if (lowIndex <= highIndex)
   {
 
@@ -281,30 +289,30 @@ void Array::rightShift()
   A[0] = 0;
 }
 
-void Array::InsertInSort(struct Array *arr, int x)
+void Array::InsertInSort(int x)
 {
-  if (arr->length > arr->size)
+  if (length > size)
   {
     return;
   }
 
   int i;
-  for (i = arr->length - 1; arr->A[i] > x; i--)
+  for (i = length - 1; A[i] > x; i--)
   {
-    if (x < arr->A[i])
+    if (x < A[i])
     {
-      arr->A[i + 1] = arr->A[i];
+      A[i + 1] = A[i];
     }
   }
-  arr->A[i + 1] = x;
-  arr->length++;
+  A[i + 1] = x;
+  length++;
 }
 
-int Array::IsSorted(struct Array arr)
+int Array::IsSorted()
 {
-  for (int i = 0; i < arr.length - 1; i++)
+  for (int i = 0; i < length - 1; i++)
   {
-    if (arr.A[i] > arr.A[i + 1])
+    if (A[i] > A[i + 1])
     {
       return -1;
     }
@@ -312,29 +320,29 @@ int Array::IsSorted(struct Array arr)
   return 1;
 }
 
-void Array::ReArrange(struct Array *arr)
+void Array::ReArrange()
 {
-  int i = 0, j = arr->length - 1;
+  int i = 0, j = length - 1;
   while (i < j)
   {
 
-    while (arr->A[i] < 0)
+    while (A[i] < 0)
     {
       i++;
     }
-    while (arr->A[j] >= 0)
+    while (A[j] >= 0)
     {
       j--;
     }
 
     if (i < j)
     {
-      Swap(&arr->A[i], &arr->A[j]);
+      Swap(&A[i], &A[j]);
     }
   }
 }
 
-struct Array Array::MergeSortedArray(struct Array arr1, struct Array arr2)
+Array Array::MergeSortedArray(const Array &arr1, struct Array &arr2)
 {
 
   struct Array arr3;
@@ -375,7 +383,7 @@ struct Array Array::MergeSortedArray(struct Array arr1, struct Array arr2)
   return arr3;
 }
 
-struct Array Array::UnionArray(struct Array arr1, struct Array arr2)
+Array Array::UnionArray(const Array &arr1, struct Array &arr2)
 {
   struct Array arr3;
 
@@ -408,7 +416,7 @@ struct Array Array::UnionArray(struct Array arr1, struct Array arr2)
   return arr3;
 }
 
-struct Array Array::IntersectionArray(struct Array arr1, struct Array arr2)
+Array Array::IntersectionArray(const Array &arr1, struct Array &arr2)
 {
   struct Array arr3;
 
@@ -430,7 +438,7 @@ struct Array Array::IntersectionArray(struct Array arr1, struct Array arr2)
   return arr3;
 }
 
-struct Array Array::DifferenceArray(struct Array arr1, struct Array arr2)
+Array Array::DifferenceArray(const Array &arr1, struct Array &arr2)
 {
   struct Array arr3;
 
@@ -460,120 +468,193 @@ struct Array Array::DifferenceArray(struct Array arr1, struct Array arr2)
 
 int main()
 {
-  struct Array arr = {{2, 3, 4, 5, 6, 100}, 10, 6};
-  Display(arr);
+  Array arr;
+
+  arr.Insert(100, 0);
+  arr.Insert(200, 1);
+  arr.Insert(300, 2);
+  arr.Insert(400, 3);
+  arr.Insert(500, 4);
+  arr.Insert(600, 5);
+  arr.Insert(700, 6);
+  arr.Insert(800, 7);
+  arr.Insert(900, 8);
+  arr.Insert(1000, 9);
+
+  arr.Display();
 
   // Linear Search
-  int index = LinearSearch(arr, 100);
+  int index = arr.LinearSearch(100);
   cout << "Element Found using Linear Search at Index: " << index << endl;
 
   // Binary Search
-  index = BinarySearch(arr, 100);
+  index = arr.BinarySearch(100);
   cout << "Element Found using Binary Search at Index: " << index << endl;
 
   // Binary Search
-  index = BinarySearchRecursive(arr, 0, arr.length - 1, 100);
+  index = arr.BinarySearchRecursive(0, -1, 100);
   cout << "Element Found using Binary Search Recursive at Index: " << index << endl;
 
   // Getting an Element
-  Display(arr);
-  cout << "Element at Index 2: " << Get(arr, 2) << endl;
+  arr.Append(2);
+  cout << "Element at Index 2: " << arr.Get(2) << endl;
 
   // Setting an Element
-  Set(&arr, 2, 99);
-  Display(arr);
-  cout << "Element at Index 2: " << Get(arr, 2) << endl;
+  arr.Set(2, 99);
+  arr.Display();
+  cout << "Element at Index 2: " << arr.Get(2) << endl;
 
   // Max Element
-  cout << "Max Element: " << Max(arr) << endl;
+  cout << "Max Element: " << arr.Max() << endl;
 
   // Sum of Elements
-  cout << "Sum of Elements: " << Sum(arr) << endl;
+  cout << "Sum of Elements: " << arr.Sum() << endl;
 
   // Average of Elements
-  cout << "Average of Elements: " << Avg(arr) << endl;
+  cout << "Average of Elements: " << arr.Avg() << endl;
 
   // Reversing the Array
   cout << "Reversing the Array" << endl;
-  Display(arr);
-  ReverseArray(&arr);
-  Display(arr);
+  arr.Display();
+  arr.ReverseArray();
+  arr.Display();
 
   // Reversing the Array with Swap
   cout << "Reversing the Array with Swap" << endl;
-  Display(arr);
-  ReverseArraySwap(&arr);
-  Display(arr);
+  arr.Display();
+  arr.ReverseArraySwap();
+  arr.Display();
 
   // Left Rotate
   cout << "Left Rotate" << endl;
-  Display(arr);
-  leftRotate(&arr);
-  Display(arr);
+  arr.Display();
+  arr.leftRotate();
+  arr.Display();
 
   // Right Rotate
   cout << "Right Rotate" << endl;
-  Display(arr);
-  rightRotate(&arr);
-  Display(arr);
+  arr.Display();
+  arr.rightRotate();
+  arr.Display();
 
   // Left Shift
   cout << "Left Shift" << endl;
-  Display(arr);
-  leftShift(&arr);
-  Display(arr);
+  arr.Display();
+  arr.leftShift();
+  arr.Display();
 
   // Right Shift
   cout << "Right Shift" << endl;
-  Display(arr);
-  rightShift(&arr);
-  Display(arr);
+  arr.Display();
+  arr.rightShift();
+  arr.Display();
 
   // Reinitializing
-  arr = {{2, 8, 12, 15, 16, 100}, 10, 6};
+  // arr = {{2, 8, 12, 15, 16, 100}, 10, 6};
+  Array arrSorted;
+  arrSorted.Append(2);
+  arrSorted.Append(8);
+  arrSorted.Append(12);
+  arrSorted.Append(15);
+  arrSorted.Append(16);
+  arrSorted.Append(100);
 
   // Is Sorted
-  cout << "Is Sorted: " << IsSorted(arr) << endl;
+  cout << "Is Sorted: " << arrSorted.IsSorted() << endl;
 
   // Insert in Sorted
-  Display(arr);
-  InsertInSort(&arr, 10);
-  Display(arr);
+  arrSorted.Display();
+  arrSorted.InsertInSort(10);
+  arrSorted.Display();
 
   // Reinitializing
-  arr = {{2, 8, 12, -15, 16, -100}, 10, 6};
+  Array arrRearrange;
+  arrRearrange.Append(2);
+  arrRearrange.Append(8);
+  arrRearrange.Append(12);
+  arrRearrange.Append(-15);
+  arrRearrange.Append(16);
+  arrRearrange.Append(-100);
 
   // Rearrange
-  Display(arr);
-  ReArrange(&arr);
-  Display(arr);
+  arrRearrange.Display();
+  arrRearrange.ReArrange();
+  arrRearrange.Display();
 
   // Merge Sorted Array
-  struct Array arr1 = {{1, 3, 5, 7}, 10, 4};
-  struct Array arr2 = {{2, 4, 6, 8}, 10, 4};
-  struct Array arr3 = MergeSortedArray(arr1, arr2);
-  Display(arr3);
+  // struct Array arr1 = {{1, 3, 5, 7}, 10, 4};
+  // struct Array arr2 = {{2, 4, 6, 8}, 10, 4};
+  Array arrMergeArray1;
+  arrMergeArray1.Append(1);
+  arrMergeArray1.Append(3);
+  arrMergeArray1.Append(5);
+  arrMergeArray1.Append(7);
+
+  Array arrMergeArray2;
+  arrMergeArray2.Append(2);
+  arrMergeArray2.Append(4);
+  arrMergeArray2.Append(6);
+  arrMergeArray2.Append(8);
+
+  Array arrMergedArray = arrMergedArray.MergeSortedArray(arrMergeArray1, arrMergeArray2);
+  arrMergedArray.Display();
 
   // Union Array
-  struct Array setA = {{1, 3, 5, 7}, 10, 4};
-  struct Array setB = {{3, 4, 5, 8}, 10, 4};
-  struct Array setC = UnionArray(setA, setB);
+  // struct Array setA = {{1, 3, 5, 7}, 10, 4};
+  // struct Array setB = {{3, 4, 5, 8}, 10, 4};
+  Array setA;
+  setA.Append(1);
+  setA.Append(3);
+  setA.Append(5);
+  setA.Append(7);
+
+  Array setB;
+  setB.Append(3);
+  setB.Append(4);
+  setB.Append(5);
+  setB.Append(8);
+
+  struct Array setC = arr.UnionArray(setA, setB);
   cout << "Union Array: " << endl;
-  Display(setC);
+  setC.Display();
 
   // Intersection Array
-  struct Array setD = {{1, 3, 5, 7}, 10, 4};
-  struct Array setE = {{3, 4, 5, 8}, 10, 4};
-  struct Array setF = IntersectionArray(setD, setE);
+  // struct Array setD = {{1, 3, 5, 7}, 10, 4};
+  // struct Array setE = {{3, 4, 5, 8}, 10, 4};
+  Array setD;
+  setD.Append(1);
+  setD.Append(3);
+  setD.Append(5);
+  setD.Append(7);
+
+  Array setE;
+  setE.Append(3);
+  setE.Append(4);
+  setE.Append(5);
+  setE.Append(8);
+
+  Array setF = arr.IntersectionArray(setD, setE);
   cout << "Intersection Array: " << endl;
-  Display(setF);
+  setF.Display();
 
   // Difference Array
-  struct Array setG = {{1, 3, 5, 7}, 10, 4};
-  struct Array setH = {{3, 4, 5, 8}, 10, 4};
-  struct Array setI = DifferenceArray(setG, setH);
+  // struct Array setG = {{1, 3, 5, 7}, 10, 4};
+  // struct Array setH = {{3, 4, 5, 8}, 10, 4};
+  Array setG;
+  setG.Append(1);
+  setG.Append(3);
+  setG.Append(5);
+  setG.Append(7);
+
+  Array setH;
+  setH.Append(3);
+  setH.Append(4);
+  setH.Append(5);
+  setH.Append(8);
+
+  struct Array setI = arr.DifferenceArray(setG, setH);
   cout << "Difference Array: " << endl;
-  Display(setI);
+  setI.Display();
 
   return 0;
 }
