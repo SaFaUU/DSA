@@ -53,10 +53,64 @@ void display(struct Sparse s)
   }
 }
 
+struct Sparse *add(struct Sparse s1, struct Sparse s2)
+{
+  int i = 0, j = 0, k = 0;
+
+  struct Sparse *s3 = new Sparse;
+  s3->m = s1.m;
+  s3->n = s1.n;
+  s3->element = new Element[s1.num + s2.num];
+
+  while (i < s1.num || k < s2.num)
+  {
+    if (s1.element[i].i < s2.element[j].i)
+    {
+      s3->element[k] = s1.element[i];
+      i++;
+      k++;
+    }
+    else if (s1.element[i].i > s2.element[j].i)
+    {
+      s3->element[k] = s2.element[j];
+      j++;
+      k++;
+    }
+    else
+    {
+      if (s1.element[i].j < s2.element[j].j)
+      {
+        s3->element[k] = s1.element[i];
+        i++;
+        k++;
+      }
+      else if (s1.element[i].j > s2.element[j].j)
+      {
+        s3->element[k] = s2.element[j];
+        j++;
+        k++;
+      }
+      else
+      {
+        s3->element[k] = s1.element[i];
+        s3->element[k].x = s1.element[i].x + s2.element[j].x;
+        i++;
+        j++;
+        k++;
+      }
+    }
+  }
+
+  s3->num = k;
+  return s3;
+}
+
 int main()
 {
-  struct Sparse s;
-  create(&s);
-  display(s);
+  struct Sparse s1, s2, *s;
+  create(&s1);
+  create(&s2);
+  s = add(s1, s2);
+  display(*s);
   return 0;
 }
