@@ -34,11 +34,43 @@ void display(Node *p)
   }
 }
 
+void Rdisplay(struct Node *p)
+{
+  if (p != NULL)
+  {
+    cout << p->data << " ";
+    Rdisplay(p->next);
+  }
+}
+
+int count(struct Node *p)
+{
+  int c = 0;
+  while (p != NULL)
+  {
+    p = p->next;
+    c++;
+  }
+  return c;
+}
+
+int countRecursive(struct Node *p)
+{
+  if (p == NULL)
+    return 0;
+  return 1 + countRecursive(p->next);
+}
+
 int main()
 {
   int A[] = {3, 5, 7, 10, 25};
   create(A, 5);
   display(first);
+  cout << endl;
+  Rdisplay(first);
+  cout << endl;
+  cout << "The count is " << count(first) << endl;
+  cout << "The count from Recursive call is " << countRecursive(first) << endl;
 
   return 0;
 }
