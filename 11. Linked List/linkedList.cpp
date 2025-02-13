@@ -61,6 +61,20 @@ int countRecursive(struct Node *p)
   return 1 + countRecursive(p->next);
 }
 
+int max(struct Node *p)
+{
+  int max = p->data;
+  while (p != NULL)
+  {
+    if (p->data > max)
+    {
+      max = p->data;
+    }
+    p = p->next;
+  }
+  return max;
+}
+
 int main()
 {
   int A[] = {3, 5, 7, 10, 25};
@@ -71,6 +85,7 @@ int main()
   cout << endl;
   cout << "The count is " << count(first) << endl;
   cout << "The count from Recursive call is " << countRecursive(first) << endl;
+  cout << "The max is " << max(first) << endl;
 
   return 0;
 }
