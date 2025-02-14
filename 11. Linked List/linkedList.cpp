@@ -75,6 +75,17 @@ int max(struct Node *p)
   return max;
 }
 
+Node *search(struct Node *p, int key)
+{
+  while (p != NULL)
+  {
+    if (p->data == key)
+      return p;
+    p = p->next;
+  }
+  return NULL;
+}
+
 int main()
 {
   int A[] = {3, 5, 7, 10, 25};
@@ -86,6 +97,11 @@ int main()
   cout << "The count is " << count(first) << endl;
   cout << "The count from Recursive call is " << countRecursive(first) << endl;
   cout << "The max is " << max(first) << endl;
+  Node *res = search(first, 25);
+  if (res == NULL)
+    cout << "Element 25 " << "Not found" << endl;
+  else
+    cout << "Element 25 " << "Found" << endl;
 
   return 0;
 }
