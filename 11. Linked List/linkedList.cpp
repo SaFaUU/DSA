@@ -86,6 +86,28 @@ Node *search(struct Node *p, int key)
   return NULL;
 }
 
+void insert(struct Node *p, int pos, int x)
+{
+  Node *t = new Node;
+
+  if (pos == 0)
+  {
+    t->data = x;
+    t->next = first;
+    first = t;
+  }
+  else if (pos > 0 && pos <= count(first))
+  {
+    for (int i = 0; i < pos - 2; i++)
+    {
+      p = p->next;
+    }
+    t->data = x;
+    t->next = p->next;
+    p->next = t;
+  }
+}
+
 int main()
 {
   int A[] = {3, 5, 7, 10, 25};
@@ -102,6 +124,10 @@ int main()
     cout << "Element 25 " << "Not found" << endl;
   else
     cout << "Element 25 " << "Found" << endl;
+
+  insert(first, 3, 15);
+  insert(first, 0, 10);
+  display(first);
 
   return 0;
 }
