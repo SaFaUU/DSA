@@ -108,6 +108,55 @@ void insert(struct Node *p, int pos, int x)
   }
 }
 
+void insertInSortedList(struct Node *p, int x)
+{
+  struct Node *t = new Node;
+  struct Node *q = NULL;
+
+  while (p && p->data < x)
+  {
+    q = p;
+    p = p->next;
+  }
+
+  t->data = x;
+  t->next = p;
+  q->next = t;
+}
+
+int deleteFromLinkedList(struct Node *p, int index)
+{
+  struct Node *q = NULL;
+  int x = -1;
+
+  if (index < 1 && index > count(p))
+  {
+    return -1;
+  }
+
+  if (index == 1)
+  {
+    x = first->data;
+    q = first;
+    first = first->next;
+    delete q;
+    return x;
+  }
+  else
+  {
+    for (int i = 0; i < index - 1; i++)
+    {
+      q = p;
+      p = p->next;
+    }
+
+    x = p->data;
+    q->next = p->next;
+    delete p;
+    return x;
+  }
+}
+
 int main()
 {
   int A[] = {3, 5, 7, 10, 25};
@@ -115,6 +164,15 @@ int main()
   display(first);
   cout << endl;
   Rdisplay(first);
+
+  cout << endl;
+  insertInSortedList(first, 15);
+  display(first);
+  cout << endl;
+
+  deleteFromLinkedList(first, 5);
+  display(first);
+
   cout << endl;
   cout << "The count is " << count(first) << endl;
   cout << "The count from Recursive call is " << countRecursive(first) << endl;
