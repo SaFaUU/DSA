@@ -173,10 +173,37 @@ int checkIfSorted(struct Node *p)
   return 1;
 }
 
+void removeDuplicates(struct Node *p)
+{
+  struct Node *q = p->next;
+
+  while (q != NULL)
+  {
+    if (p->data != q->data)
+    {
+      p = q;
+      q = q->next;
+    }
+    else
+    {
+      p->next = q->next;
+      delete q;
+      q = p->next;
+    }
+  }
+}
+
 int main()
 {
-  int A[] = {3, 5, 7, 10, 25};
+  int A[] = {3, 5, 5, 7, 10, 25};
 
+  create(A, 5);
+
+  cout << "Removing Duplicates" << endl;
+  display(first);
+  cout << endl;
+  removeDuplicates(first);
+  display(first);
   cout << endl;
 
   if (checkIfSorted(first))
@@ -188,7 +215,6 @@ int main()
     cout << "Not Sorted" << endl;
   }
 
-  create(A, 5);
   display(first);
   cout << endl;
   Rdisplay(first);
