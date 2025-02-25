@@ -155,11 +155,39 @@ int deleteFromLinkedList(struct Node *p, int index)
     delete p;
     return x;
   }
+};
+
+int checkIfSorted(struct Node *p)
+{
+  int x = -2147483648;
+
+  while (p != NULL)
+  {
+    if (p->data < x)
+    {
+      return 0;
+    }
+    x = p->data;
+    p = p->next;
+  }
+  return 1;
 }
 
 int main()
 {
   int A[] = {3, 5, 7, 10, 25};
+
+  cout << endl;
+
+  if (checkIfSorted(first))
+  {
+    cout << "Sorted" << endl;
+  }
+  else
+  {
+    cout << "Not Sorted" << endl;
+  }
+
   create(A, 5);
   display(first);
   cout << endl;
