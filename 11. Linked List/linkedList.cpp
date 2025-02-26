@@ -193,6 +193,59 @@ void removeDuplicates(struct Node *p)
   }
 }
 
+void reverseWithArray(struct Node *p)
+{
+  int linkListCount = count(p);
+
+  int A[linkListCount];
+  int i = 0;
+  while (p != NULL)
+  {
+    A[i++] = p->data;
+    p = p->next;
+  }
+
+  p = first;
+  linkListCount = count(p);
+  while (p != NULL)
+  {
+    p->data = A[--linkListCount];
+    p = p->next;
+  }
+}
+
+void reverseWithLink(struct Node *p)
+{
+  struct Node *q, *r;
+
+  q = NULL;
+  r = NULL;
+
+  while (p != NULL)
+  {
+    r = q;
+    q = p;
+    p = p->next;
+
+    q->next = r;
+  }
+
+  first = q;
+}
+
+void reverseWithRecursion(struct Node *q, struct Node *p)
+{
+  if (p != NULL)
+  {
+    reverseWithRecursion(p, p->next);
+    p->next = q;
+  }
+  else
+  {
+    first = q;
+  }
+}
+
 int main()
 {
   int A[] = {3, 5, 5, 7, 10, 25};
@@ -239,6 +292,21 @@ int main()
 
   insert(first, 3, 15);
   insert(first, 0, 10);
+  display(first);
+
+  cout << endl;
+  cout << "Reversing the Linked List " << endl;
+  reverseWithArray(first);
+  display(first);
+
+  cout << endl;
+  cout << "Reversing the Linked List(Reverse with Link) " << endl;
+  reverseWithLink(first);
+  display(first);
+
+  cout << endl;
+  cout << "Reversing the Linked List(Reverse with Recursion) " << endl;
+  reverseWithRecursion(NULL, first);
   display(first);
 
   return 0;
