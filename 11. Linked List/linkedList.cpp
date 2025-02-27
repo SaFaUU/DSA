@@ -5,7 +5,7 @@ struct Node
 {
   int data;
   Node *next;
-} *first = NULL;
+} *first = NULL, *second = NULL, *third = NULL;
 
 void create(int A[], int n)
 {
@@ -25,6 +25,24 @@ void create(int A[], int n)
   }
 };
 
+void create2(int A[], int n)
+{
+  Node *t, *last;
+  second = new Node;
+  second->data = A[0];
+  second->next = NULL;
+  last = second;
+
+  for (int i = 1; i < n; i++)
+  {
+    t = new Node;
+    t->data = A[i];
+    t->next = NULL;
+    last->next = t;
+    last = t;
+  }
+};
+
 void display(Node *p)
 {
   while (p != NULL)
@@ -32,6 +50,7 @@ void display(Node *p)
     cout << p->data << " ";
     p = p->next;
   }
+  cout << endl;
 }
 
 void Rdisplay(struct Node *p)
@@ -246,19 +265,70 @@ void reverseWithRecursion(struct Node *q, struct Node *p)
   }
 }
 
+void concetation(struct Node *p, struct Node *q)
+{
+  while (p->next != NULL)
+  {
+    p = p->next;
+  }
+
+  p->next = q;
+}
+
+void MergeList(struct Node *p, struct Node *q)
+{
+  struct Node *last = NULL;
+
+  if (p->data > q->data)
+  {
+    third = last = q;
+    q = q->next;
+    last->next = NULL;
+  }
+  else
+  {
+    third = last = p;
+    p = p->next;
+    last->next = NULL;
+  }
+
+  while (p != NULL && q != NULL)
+  {
+    if (p->data < q->data)
+    {
+      last->next = p;
+      last = p;
+      p = p->next;
+      last->next = NULL;
+    }
+    else
+    {
+      last->next = q;
+      last = q;
+      q = q->next;
+      last->next = NULL;
+    }
+  }
+  if (p != NULL)
+  {
+    last->next = p;
+  }
+  else
+  {
+    last->next = q;
+  }
+}
+
 int main()
 {
   int A[] = {3, 5, 5, 7, 10, 25};
 
-  create(A, 5);
+  create(A, 6);
 
   cout << "Removing Duplicates" << endl;
   display(first);
-  cout << endl;
   removeDuplicates(first);
   display(first);
-  cout << endl;
-
   if (checkIfSorted(first))
   {
     cout << "Sorted" << endl;
@@ -268,11 +338,22 @@ int main()
     cout << "Not Sorted" << endl;
   }
 
-  display(first);
   cout << endl;
-  Rdisplay(first);
+  // int B[] = {97, 98, 99};
+  // create2(B, 3);
 
-  cout << endl;
+  // cout << "concetation of the Linked Lists " << endl;
+  // concetation(first, second);
+  // display(first);
+  // Rdisplay(first);
+
+  cout << "Merge of the Linked Lists " << endl;
+  int B[] = {4, 6, 11};
+  create2(B, 3);
+  MergeList(first, second);
+  display(first);
+
+  cout << "Inserting in Linked List" << endl;
   insertInSortedList(first, 15);
   display(first);
   cout << endl;
