@@ -71,6 +71,33 @@ void insert(struct Node *p, int pos, int x)
     p->next = t;
   }
 }
+
+void deleteNode(struct Node *p, int pos)
+{
+  struct Node *q;
+  if (pos == 0)
+  {
+    struct Node *first = p;
+    do
+    {
+      p = p->next;
+    } while ((p->next) != first);
+
+    linkedListA = linkedListA->next;
+    p->next = first->next;
+    delete first;
+  }
+  else
+  {
+    for (int i = 0; i < pos - 1; i++)
+    {
+      q = p;
+      p = p->next;
+    }
+    q->next = p->next;
+    delete p;
+  }
+}
 int main()
 {
   int A[] = {1, 2, 3, 4, 5};
@@ -79,5 +106,7 @@ int main()
   insert(linkedListA, 3, 6);
   RDisplay(linkedListA);
   cout << endl;
+  deleteNode(linkedListA, 0);
+  display(linkedListA);
   return 0;
 }
