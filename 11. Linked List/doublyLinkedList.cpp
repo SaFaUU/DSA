@@ -82,6 +82,38 @@ void insert(struct Node *p, int index, int x)
   }
 }
 
+void deleteNode(struct Node *p, int index)
+{
+  if (index == 0)
+  {
+    first = first->next;
+    first->prev = NULL;
+    delete p;
+  }
+  else
+  {
+    for (int i = 1; i <= index; i++)
+    {
+      p = p->next;
+    }
+    cout << p->data << endl;
+    if (p->next == NULL)
+    {
+      p->prev->next = NULL;
+    }
+    else
+    {
+
+      if (p->prev)
+      {
+        p->prev->next = p->next;
+        p->next->prev = p->prev;
+      }
+    }
+    delete p;
+  }
+}
+
 int main()
 {
   int A[] = {10, 20, 30, 40, 50};
@@ -91,6 +123,10 @@ int main()
 
   insert(first, 3, 100);
   insert(first, 0, 5);
+  display(first);
+
+  cout << "After Deletion: " << endl;
+  deleteNode(first, 2);
   display(first);
   return 0;
 }
