@@ -114,6 +114,23 @@ void deleteNode(struct Node *p, int index)
   }
 }
 
+void reverseDoublyLinkedList(struct Node *p)
+{
+
+  while (p)
+  {
+    struct Node *temp = p->next;
+    p->next = p->prev;
+    p->prev = temp;
+    p = p->prev;
+
+    if (p && p->next == NULL)
+    {
+      first = p;
+    }
+  }
+}
+
 int main()
 {
   int A[] = {10, 20, 30, 40, 50};
@@ -127,6 +144,11 @@ int main()
 
   cout << "After Deletion: " << endl;
   deleteNode(first, 2);
+  display(first);
+
+  cout << "Reversed Linked List: " << endl;
+  display(first);
+  reverseDoublyLinkedList(first);
   display(first);
   return 0;
 }
