@@ -6,7 +6,7 @@ struct Node
   struct Node *prev;
   int data;
   struct Node *next;
-} *first = NULL;
+} *first = NULL, *second = NULL;
 
 void create(int A[], int n)
 {
@@ -131,10 +131,97 @@ void reverseDoublyLinkedList(struct Node *p)
   }
 }
 
+int middleNode(struct Node *p)
+{
+
+  struct Node *q = p;
+
+  while (q != NULL && q->next != NULL)
+  {
+    {
+      q = q->next;
+      if (q != NULL && q->next != NULL)
+      {
+        q = q->next;
+        p = p->next;
+      }
+    }
+  }
+
+  return p->data;
+}
+
+class Stack
+{
+  struct Node *arr;
+  int top;
+  int capacity;
+
+public:
+  Stack(int size)
+  {
+    arr = new struct Node[size];
+    capacity = size;
+    top = -1;
+  }
+  // Add element to stack
+  void push(struct Node element)
+  {
+    if (top == capacity - 1)
+    {
+      cout << "Stack Overflow\n";
+      return;
+    }
+    arr[++top] = element;
+  }
+  // Remove top element
+  struct Node pop()
+  {
+    return arr[top--];
+  }
+  // Check top element
+  struct Node peek()
+  {
+    return arr[top];
+  }
+  // Check if stack is empty
+  bool isEmpty()
+  {
+    return top == -1;
+  }
+};
+
+int findIntersection(struct Node *first, struct Node *second)
+{
+  Stack s1(Length(first));
+  Stack s2(Length(second));
+
+  while (first != NULL)
+  {
+    s1.push(*first);
+    first = first->next;
+  }
+
+  while (second != NULL)
+  {
+    s2.push(*second);
+    second = second->next;
+  }
+
+  while (s1.peek().data == s2.peek().data)
+  {
+    s1.pop();
+    s2.pop();
+  }
+
+  return s1.peek().data;
+}
+
 int main()
 {
   int A[] = {10, 20, 30, 40, 50};
   create(A, 5);
+
   display(first);
   cout << "Length: " << Length(first) << endl;
 
@@ -150,5 +237,8 @@ int main()
   display(first);
   reverseDoublyLinkedList(first);
   display(first);
+
+  cout << "Middle Node: " << middleNode(first) << endl;
+
   return 0;
 }
